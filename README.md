@@ -6,23 +6,21 @@ Here's the [YouTube Video](https://youtu.be/9AXP7tCI9PI).
 
 ## Installation
 
-Install [Langchain](https://github.com/hwchase17/langchain) and other required packages.
+Install [Langchain](https://github.com/hwchase17/langchain).
 ```
-pip install -r requirements.txt
+pip install langchain
+pip install openai
+pip install chromadb
+pip install tiktoken
 ```
 Modify `constants.py` to use your own [OpenAI API key](https://platform.openai.com/account/api-keys).
 
-Place your own data into `data/data.txt`.
+Place your own files into the mydata folder.
+
 
 ## Example usage
-Test reading `data/data.txt` file.
 ```
+> python sync.py
 > python chatgpt.py "what is my dog's name"
 Your dog's name is Sunny.
-```
-
-Test reading `data/cat.pdf` file.
-```
-> python chatgpt.py "what is my cat's name"
-Your cat's name is Muffy.
 ```
