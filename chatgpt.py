@@ -8,7 +8,6 @@ from funcoms import get_loader_cls
 import openai
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import TextLoader, PDFMinerLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
@@ -34,6 +33,11 @@ if sys.argv[2]:
     print("Skipping index/cache check..")
     PERSIST = False
 
+if sys.argv[3]:
+    print("Not using OpenAI as part of the query.  Using only vector store index.")
+    USE_OPEN_AI = False
+
+
 if PERSIST and os.path.exists("persist"):
     print("Reusing index/cache...\n")
     vectorstore = Chroma(persist_directory="persist", embedding_function=OpenAIEmbeddings())
@@ -51,10 +55,14 @@ else:
     if loaders:
         index = index_creator.from_loaders(loaders)
     else:
-        print("No valid files found in the data directory.")  
+        print("No valid files found in the data directory.")
 
-chain = RetrievalQA.from_chain_type(
-    llm=ChatOpenAI(model="gpt-3.5-turbo"),
-    retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
-)
-print(chain.run(query))
+
+if USE_OPEN_AI:
+    chain = RetrievalQA.from_chain_type(
+        llm=ChatOpenAI(model="gpt-3.5-turbo"),
+        retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
+    )
+    print(chain.run(query))
+else:
+    print(index.query(query))
