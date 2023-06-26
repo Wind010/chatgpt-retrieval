@@ -13,7 +13,7 @@ pip install openai
 pip install chromadb
 pip install tiktoken
 ```
-Create a `secrets.py` to use your own [OpenAI API key](https://platform.openai.com/account/api-keys).
+Create a `user_secrets.py` to use your own [OpenAI API key](https://platform.openai.com/account/api-keys).
 ```python
 API_KEY = "YOUR_API_KEY"
 ```

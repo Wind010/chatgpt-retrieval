@@ -16,10 +16,10 @@ from langchain.vectorstores import Chroma
 
 
 import constants
-import secrets
+import user_secrets
 data_directory = constants.DATA_DIRECTORY
 
-os.environ["OPENAI_API_KEY"] = secrets.API_KEY
+os.environ["OPENAI_API_KEY"] = user_secrets.API_KEY
 
 # Enable to cache & reuse the model to disk (for repeated queries on the same data)
 PERSIST = constants.PERSIST
@@ -71,4 +71,5 @@ if USE_OPEN_AI:
     )
     print(chain.run(query))
 else:
+    print('here')
     print(index.query(query))
