@@ -13,7 +13,10 @@ pip install openai
 pip install chromadb
 pip install tiktoken
 ```
-Modify `constants.py` to use your own [OpenAI API key](https://platform.openai.com/account/api-keys).
+Create a `secrets.py` to use your own [OpenAI API key](https://platform.openai.com/account/api-keys).
+```python
+API_KEY = "YOUR_API_KEY"
+```
 
 Place your own files into the mydata folder.
 
@@ -24,3 +27,4 @@ Place your own files into the mydata folder.
 > python chatgpt.py "what is my dog's name"
 Your dog's name is Sunny.
 ```
+
