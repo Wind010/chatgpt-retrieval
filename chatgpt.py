@@ -21,19 +21,23 @@ data_directory = constants.DATA_DIRECTORY
 os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
 # Enable to cache & reuse the model to disk (for repeated queries on the same data)
-PERSIST = constants.PERSIST #False
+PERSIST = constants.PERSIST
+USE_OPEN_AI = constants.USE_OPEN_AI
+MODEL = constants.MODEL
 
-if len(sys.argv[1]) == 1:
+# TODO:  Add argparsee
+if len(sys.argv) == 1:
     print("Please ask me a relevant question.")
     sys.exit(1)
 
 query = sys.argv[1]
 
-if sys.argv[2]:
+if len(sys.argv) > 2:
+    print(sys.argv)
     print("Skipping index/cache check..")
     PERSIST = False
 
-if sys.argv[3]:
+if len(sys.argv) == 3:
     print("Not using OpenAI as part of the query.  Using only vector store index.")
     USE_OPEN_AI = False
 
@@ -60,7 +64,8 @@ else:
 
 if USE_OPEN_AI:
     chain = RetrievalQA.from_chain_type(
-        llm=ChatOpenAI(model="gpt-3.5-turbo"),
+        
+        llm=ChatOpenAI(model=MODEL),
         retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
     )
     print(chain.run(query))
